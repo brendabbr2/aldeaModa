@@ -21,30 +21,6 @@ module.exports={ //módulo de webpack -- permite crear un objeto que puede ser r
         ]
     },
     plugins:[
-        new htmlWebpackPlugin({//Nos permite agregar rutas
-            filename: 'index.html',//Determina  nombre del archivo de acceso de entrada a la web-abb
-            template: './src/cliente/product-admin/index.html'//Determina la ruta del archivo y además permite copiar el index.html y lo copie en la carpeta dist.
-        }),
-        new htmlWebpackPlugin({
-            filename: 'products.html',
-            template: './src/cliente/product-admin/products.html'
-        }),
-        new htmlWebpackPlugin({
-            filename: 'accounts.html',
-            template: './src/cliente/product-admin/accounts.html'
-        }),
-        new htmlWebpackPlugin({
-            filename: 'add-product.html',
-            template: './src/cliente/product-admin/add-product.html'
-        }),
-        new htmlWebpackPlugin({
-            filename: 'edit-product.html',
-            template: './src/cliente/product-admin/edit-product.html'
-        }),
-        new htmlWebpackPlugin({
-            filename: 'login.html',
-            template: './src/cliente/product-admin/login.html'
-        }),
         new htmlWebpackPlugin({
             filename: 'home.html',
             template: './src/cliente/e-commerse/home.html'
