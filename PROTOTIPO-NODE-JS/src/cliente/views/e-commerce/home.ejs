@@ -343,10 +343,10 @@
 				<!--Empieza foreach-->
 			
 				<% products.forEach(function(product) { %>
-					<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+					<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <%= product.category_name.toLowerCase() %>">
 						<div class="block2">
 							<div class="block2-pic hov-img0">
-								<img src="static/e-commerse/images/product-01.jpg" alt="<%= product.ProductName %>">
+								<img src="static/e-commerse/images/<%= product.image_name %>" alt="<%= product.name %>">
 				
 								<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
 									Buy!
@@ -366,7 +366,7 @@
 							</div>
 						</div>
 					</div>
-				<% }); %>    
+				<% }); %>      
 			
 					<!--Termina foreach-->
 			</div>

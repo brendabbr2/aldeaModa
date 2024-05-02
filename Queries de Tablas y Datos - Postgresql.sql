@@ -1,20 +1,36 @@
 ALTER ROLE postgres WITH PASSWORD 'password';
 
+Create table Category(
+id SERIAL PRIMARY KEY,
+name VARCHAR(30)
+);
+
+Insert into Category (name) values
+('Men'),
+('Women'),
+('Boy'),
+('Girl')
+
 Create table Product(
 id SERIAL PRIMARY KEY,
 name VARCHAR(30),
 in_stock int,
-price float
+price float,
+category_name VARCHAR(30),
+image_name varchar(30)
 );
 
-Insert into Product(name,in_stock,price) values('Sport Puma T-Shirt',10,15);
-Insert into Product(name,in_stock,price) values('Sport Nike T-Shirt',10,13);
-Insert into Product(name,in_stock,price) values('Sport Adidas T-Shirt',10,12);
-Insert into Product(name,in_stock,price) values('Sport Coco T-Shirt',10,14);
-Insert into Product(name,in_stock,price) values('Sport Hurley T-Shirt',10,12);
-Insert into Product(name,in_stock,price) values('Sport Lotto T-Shirt',10,15);
-Insert into Product(name,in_stock,price) values('Sport Zara T-Shirt',10,16);
-Insert into Product(name,in_stock,price) values('Fashion Pri-Pro T-Shirt',10,20);
+select * from product order by id desc
+
+Insert into Product(name,in_stock,price,category_name,image_name) 
+values('Sport Puma T-Shirt',10,15,'Men','product-03.jpg'),
+('Sport Nike T-Shirt',10,13,'Women','product-04.jpg'),
+('Sport Adidas T-Shirt',10,12,'Girl','product-01.jpg'),
+('Sport Coco T-Shirt',10,14,'Boy','product-03.jpg'),
+('Sport Hurley T-Shirt',10,12,'Men','product-03.jpg'),
+('Sport Lotto T-Shirt',10,15,'Women','product-04.jpg'),
+('Sport Zara T-Shirt',10,16,'Boy','product-03.jpg'),
+('Fashion Pri-Pro T-Shirt',10,20,'Women','product-04.jpg');
 
 Create table OrderClient(
 id SERIAL PRIMARY KEY,
@@ -69,6 +85,11 @@ INSERT INTO account (nombre, email, password, phone) VALUES
 ('Mariana Rojas', 'mariana@example.com', 'password12345', '456-789-0123');
 
 select * from account
+
+Create table Category(
+id SERIAL PRIMARY KEY,
+name VARCHAR(30)
+);
 
 
 
