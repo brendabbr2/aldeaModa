@@ -7,6 +7,10 @@ var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackConfig = require('../webpack.config');
 var bodyParser = require('body-parser');
 
+const productsRepository = require("./servidor/productsRepository");
+const ordersRepository = require("./servidor/ordersRepository");
+const accountsRepository = require("./servidor/accountsRepository");
+
 var app = express();
 //MOTOR DE PLANTILLAS
 app.set('view engine', 'ejs');
@@ -18,31 +22,50 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true})); // decodificación de caracteres
 app.use(webpackDevMiddleware(webpack(webpackConfig))); //webpackDevMiddleware permite a app(Express) comunicarse con Webpack
 
+var config = {
+    user: 'postgres',
+    host: 'localhost', 
+    database: 'product_admin',   
+    password: 'password',
+    port: '5432'    
+  };
 
-//Datos quemados
-var orders = [
-    {OrderId : "1221", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1222", Status: "Pending", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1223", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1224", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1225", Status: "PendingCompleted", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1226", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1227", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1228", Status: "Pending", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1229", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1230", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-];
+const oProductsRepository = new productsRepository(config);
+const oOrdersRepository = new ordersRepository(config);
+const oAccountsRepository = new accountsRepository(config);
 
-app.get('/',function(req,res,next){//Creamos las rutas o secciones que va tener nuestra página.    
-    res.render("product-admin/index", {orders : orders});
+
+app.get('/',function(req,res,next){//Creamos las rutas o secciones que va tener nuestra página. 
+    oOrdersRepository.getOrders()
+    .then(data => {
+        res.render("product-admin/index", {orders : data});
+    })
+    .catch(error => {
+        console.error("Error al obtener ordenes:", error);
+        // Manejar errores
+    });     
 });
 
 app.get('/index.html',function(req,res,next){
-    res.render("product-admin/index", {orders : orders});
+    oOrdersRepository.getOrders()
+    .then(data => {
+        res.render("product-admin/index", {orders : data});
+    })
+    .catch(error => {
+        console.error("Error al obtener ordenes:", error);
+        // Manejar errores
+    });  
 });
 
 app.get('/accounts.html',function(req,res,next){
-    res.render("product-admin/accounts");
+    oAccountsRepository.getAccounts()
+    .then(data => {
+        res.render("product-admin/accounts", {accounts : data});
+    })
+    .catch(error => {
+        console.error("Error al obtener accounts:", error);
+        // Manejar errores
+    }); 
 });
 
 app.get('/add-product.html',function(req,res,next){
@@ -58,22 +81,14 @@ app.get('/login.html',function(req,res,next){
 });
 
 app.get('/products.html',function(req,res,next){
-    var products = [
-        {ProductName : "PriscilaPro", UnitSold: 1, InStock: 9, ExpireDate: "28 March 2024"},
-        {ProductName : "StevenPro", UnitSold: 2, InStock: 5, ExpireDate: "04 March 2024"},
-        {ProductName : "Product1", UnitSold: 1, InStock: 9, ExpireDate: "28 March 2024"},
-        {ProductName : "Product2", UnitSold: 2, InStock: 5, ExpireDate: "04 March 2024"},
-        {ProductName : "Product1", UnitSold: 1, InStock: 9, ExpireDate: "28 March 2024"},
-        {ProductName : "Product2", UnitSold: 2, InStock: 5, ExpireDate: "04 March 2024"},
-        {ProductName : "Product1", UnitSold: 1, InStock: 9, ExpireDate: "28 March 2024"},
-        {ProductName : "Product2", UnitSold: 2, InStock: 5, ExpireDate: "04 March 2024"},
-        {ProductName : "Product1", UnitSold: 1, InStock: 9, ExpireDate: "28 March 2024"},
-        {ProductName : "Product2", UnitSold: 2, InStock: 5, ExpireDate: "04 March 2024"},
-        {ProductName : "Product1", UnitSold: 1, InStock: 9, ExpireDate: "28 March 2024"},
-        {ProductName : "Product2", UnitSold: 2, InStock: 5, ExpireDate: "04 March 2024"},
-        {ProductName : "Product3", UnitSold: 3, InStock: 8, ExpireDate: "11 March 2024"}
-    ];
-    res.render("product-admin/products", {products: products});
+    oProductsRepository.getProductos()
+    .then(data => {
+        res.render("product-admin/products", {products: data});
+    })
+    .catch(error => {
+        console.error("Error al obtener productos:", error);
+        // Manejar errores
+    });    
 });
 
 app.listen(app.get('port'),()=>{ //listener en el puesto especificado
