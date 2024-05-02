@@ -91,6 +91,26 @@ app.get('/products.html',function(req,res,next){
     });    
 });
 
+app.get('/product.html', function(req, res, next) {
+    var products = [
+        { ProductName: "PriscilaPro", Price: "$20.99", UnitsSold: 1, InStock: 9, ExpireDate: "28 March 2024" },
+        { ProductName: "StevenPro", Price: "$25.49", UnitsSold: 2, InStock: 5, ExpireDate: "04 March 2024" },
+        { ProductName: "Product1", Price: "$10.99", UnitsSold: 1, InStock: 9, ExpireDate: "28 March 2024" },
+        { ProductName: "Product2", Price: "$15.99", UnitsSold: 2, InStock: 5, ExpireDate: "04 March 2024" },
+        { ProductName: "Product1", Price: "$10.99", UnitsSold: 1, InStock: 9, ExpireDate: "28 March 2024" },
+        { ProductName: "Product2", Price: "$15.99", UnitsSold: 2, InStock: 5, ExpireDate: "04 March 2024" },
+        { ProductName: "Product1", Price: "$10.99", UnitsSold: 1, InStock: 9, ExpireDate: "28 March 2024" },
+        { ProductName: "Product2", Price: "$15.99", UnitsSold: 2, InStock: 5, ExpireDate: "04 March 2024" },
+        { ProductName: "Product1", Price: "$10.99", UnitsSold: 1, InStock: 9, ExpireDate: "28 March 2024" },
+        { ProductName: "Product2", Price: "$15.99", UnitsSold: 2, InStock: 5, ExpireDate: "04 March 2024" },
+        { ProductName: "Product1", Price: "$10.99", UnitsSold: 1, InStock: 9, ExpireDate: "28 March 2024" },
+        { ProductName: "Product2", Price: "$15.99", UnitsSold: 2, InStock: 5, ExpireDate: "04 March 2024" },
+        { ProductName: "Product3", Price: "$30.99", UnitsSold: 3, InStock: 8, ExpireDate: "11 March 2024" }
+    ];
+    res.render("e-commerce/product", { products: products });
+});
+
+
 app.listen(app.get('port'),()=>{ //listener en el puesto especificado
     console.log('servidor activo');//Una vez inicializado mostrará esto por consola.
 });
