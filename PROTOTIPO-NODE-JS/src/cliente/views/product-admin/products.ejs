@@ -74,7 +74,7 @@
   </nav>
     <div class="container mt-5">
       <div class="row tm-content-row">
-        <div class="col-sm-12 col-md-12 col-lg-8  col-xl-8 tm-block-col">
+        <div class="col-sm-12 col-md-12 col-lg-8  col-xl-12 tm-block-col">
           <div class="tm-bg-primary-dark tm-block tm-block-products">
             <div class="tm-product-table-container">
               <table class="table table-hover tm-table-small tm-product-table">
@@ -82,9 +82,8 @@
                   <tr>
                     <th scope="col">&nbsp;</th>
                     <th scope="col">PRODUCT NAME</th>
-                    <th scope="col">UNIT SOLD</th>
                     <th scope="col">IN STOCK</th>
-                    <th scope="col">EXPIRE DATE</th>
+                    <th scope="col">PRICE</th>
                     <th scope="col">&nbsp;</th>
                   </tr>
                 </thead>
@@ -92,10 +91,9 @@
                   <% products.forEach(function(product) { %>
                     <tr>
                         <th scope="row"><input type="checkbox" /></th>
-                        <td class="tm-product-name"><%= product.ProductName %></td>
-                        <td><%= product.UnitSold %></td>
-                        <td><%= product.InStock %></td>
-                        <td><%= product.ExpireDate %></td>
+                        <td class="tm-product-name"><%= product.name %></td>
+                        <td><%= product.in_stock %></td>
+                        <td><%= product.price %></td>
                         <td>
                             <a href="#" class="tm-product-delete-link">
                                 <i class="far fa-trash-alt tm-product-delete-icon"></i>
