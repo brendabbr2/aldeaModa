@@ -1,11 +1,9 @@
-//Funciona tipo Listener HTTP
-//Acá se declaran todas las rutas y se atienden las solicitudes de las páginas
-
 var express = require('express');
 var webpack = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackConfig = require('../webpack.config');
 var bodyParser = require('body-parser');
+const { Pool } = require('pg');
 
 var app = express();
 //MOTOR DE PLANTILLAS
@@ -18,19 +16,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true})); // decodificación de caracteres
 app.use(webpackDevMiddleware(webpack(webpackConfig))); //webpackDevMiddleware permite a app(Express) comunicarse con Webpack
 
-
 //Datos quemados
 var orders = [
     {OrderId : "1221", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
     {OrderId : "1222", Status: "Pending", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
     {OrderId : "1223", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1224", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1225", Status: "PendingCompleted", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1226", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1227", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1228", Status: "Pending", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1229", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
-    {OrderId : "1230", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
+    // Agrega más datos si es necesario
 ];
 
 app.get('/',function(req,res,next){//Creamos las rutas o secciones que va tener nuestra página.    
@@ -61,17 +52,7 @@ app.get('/products.html',function(req,res,next){
     var products = [
         {ProductName : "PriscilaPro", UnitSold: 1, InStock: 9, ExpireDate: "28 March 2024"},
         {ProductName : "StevenPro", UnitSold: 2, InStock: 5, ExpireDate: "04 March 2024"},
-        {ProductName : "Product1", UnitSold: 1, InStock: 9, ExpireDate: "28 March 2024"},
-        {ProductName : "Product2", UnitSold: 2, InStock: 5, ExpireDate: "04 March 2024"},
-        {ProductName : "Product1", UnitSold: 1, InStock: 9, ExpireDate: "28 March 2024"},
-        {ProductName : "Product2", UnitSold: 2, InStock: 5, ExpireDate: "04 March 2024"},
-        {ProductName : "Product1", UnitSold: 1, InStock: 9, ExpireDate: "28 March 2024"},
-        {ProductName : "Product2", UnitSold: 2, InStock: 5, ExpireDate: "04 March 2024"},
-        {ProductName : "Product1", UnitSold: 1, InStock: 9, ExpireDate: "28 March 2024"},
-        {ProductName : "Product2", UnitSold: 2, InStock: 5, ExpireDate: "04 March 2024"},
-        {ProductName : "Product1", UnitSold: 1, InStock: 9, ExpireDate: "28 March 2024"},
-        {ProductName : "Product2", UnitSold: 2, InStock: 5, ExpireDate: "04 March 2024"},
-        {ProductName : "Product3", UnitSold: 3, InStock: 8, ExpireDate: "11 March 2024"}
+        // Agrega más datos si es necesario
     ];
     res.render("product-admin/products", {products: products});
 });
@@ -80,22 +61,32 @@ app.get('/product.html', function(req, res, next) {
     var products = [
         { ProductName: "PriscilaPro", Price: "$20.99", UnitsSold: 1, InStock: 9, ExpireDate: "28 March 2024" },
         { ProductName: "StevenPro", Price: "$25.49", UnitsSold: 2, InStock: 5, ExpireDate: "04 March 2024" },
-        { ProductName: "Product1", Price: "$10.99", UnitsSold: 1, InStock: 9, ExpireDate: "28 March 2024" },
-        { ProductName: "Product2", Price: "$15.99", UnitsSold: 2, InStock: 5, ExpireDate: "04 March 2024" },
-        { ProductName: "Product1", Price: "$10.99", UnitsSold: 1, InStock: 9, ExpireDate: "28 March 2024" },
-        { ProductName: "Product2", Price: "$15.99", UnitsSold: 2, InStock: 5, ExpireDate: "04 March 2024" },
-        { ProductName: "Product1", Price: "$10.99", UnitsSold: 1, InStock: 9, ExpireDate: "28 March 2024" },
-        { ProductName: "Product2", Price: "$15.99", UnitsSold: 2, InStock: 5, ExpireDate: "04 March 2024" },
-        { ProductName: "Product1", Price: "$10.99", UnitsSold: 1, InStock: 9, ExpireDate: "28 March 2024" },
-        { ProductName: "Product2", Price: "$15.99", UnitsSold: 2, InStock: 5, ExpireDate: "04 March 2024" },
-        { ProductName: "Product1", Price: "$10.99", UnitsSold: 1, InStock: 9, ExpireDate: "28 March 2024" },
-        { ProductName: "Product2", Price: "$15.99", UnitsSold: 2, InStock: 5, ExpireDate: "04 March 2024" },
-        { ProductName: "Product3", Price: "$30.99", UnitsSold: 3, InStock: 8, ExpireDate: "11 March 2024" }
+        // Agrega más datos si es necesario
     ];
     res.render("e-commerce/product", { products: products });
 });
 
-
 app.listen(app.get('port'),()=>{ //listener en el puesto especificado
     console.log('servidor activo');//Una vez inicializado mostrará esto por consola.
+});
+
+const pool = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'aldeaModa',
+    password: '1234',
+    port: 5432 // Puerto de PostgreSQL
+});
+
+app.get('/', async (req, res) => {
+    try {
+      const client = await pool.connect();
+      const result = await client.query('SELECT * FROM Usuarios');
+      const usuarios = result.rows;
+      res.render('product-admin\index.ejs', { usuarios }); // Asegúrate de que aquí estás pasando los usuarios a la plantilla EJS
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.send('Error al obtener usuarios de la base de datos');
+    }
 });
