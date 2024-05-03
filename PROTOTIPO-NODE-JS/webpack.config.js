@@ -22,12 +22,24 @@ module.exports={ //módulo de webpack -- permite crear un objeto que puede ser r
     },
     plugins:[
         new htmlWebpackPlugin({
+            filename: 'home.html',
+            template: './src/cliente/e-commerse/home.html'
+        }),
+        new htmlWebpackPlugin({
             filename: 'about.html',
             template: './src/cliente/e-commerse/about.html'
         }),
         new htmlWebpackPlugin({
             filename: 'contact.html',
             template: './src/cliente/e-commerse/contact.html'
+        }),
+        new htmlWebpackPlugin({
+            filename: 'home-02.html',
+            template: './src/cliente/e-commerse/home-02.html'
+        }),
+        new htmlWebpackPlugin({
+            filename: 'home-03.html',
+            template: './src/cliente/e-commerse/home-03.html'
         }),
         new htmlWebpackPlugin({
             filename: 'product-detail.html',

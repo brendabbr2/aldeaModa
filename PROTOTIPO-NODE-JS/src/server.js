@@ -1,19 +1,9 @@
-//Funciona tipo Listener HTTP
-//Acá se declaran todas las rutas y se atienden las solicitudes de las páginas
-
 var express = require('express');
 var webpack = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackConfig = require('../webpack.config');
 var bodyParser = require('body-parser');
-var multer = require('multer');
-
-const productsRepository = require("./servidor/productsRepository");
-const ordersRepository = require("./servidor/ordersRepository");
-const accountsRepository = require("./servidor/accountsRepository");
-const categoriesRepository = require("./servidor/categoriesRepository");
-
-
+const { Pool } = require('pg');
 
 var app = express();
 //MOTOR DE PLANTILLAS
@@ -26,74 +16,28 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true})); // decodificación de caracteres
 app.use(webpackDevMiddleware(webpack(webpackConfig))); //webpackDevMiddleware permite a app(Express) comunicarse con Webpack
 
-// Configuración de multer para guardar archivos en el directorio "dist/e-commerse/images"
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './dist/e-commerse/images');
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname); // Usar el nombre original del archivo
-    }
-});
+//Datos quemados
+var orders = [
+    {OrderId : "1221", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
+    {OrderId : "1222", Status: "Pending", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
+    {OrderId : "1223", Status: "Completed", Client: "Oliver T", Location: "CR, San José", OrderDate: "16:00, 12 NOV 2018", EstDeliveryDate: "08:00, 18 NOV 2018"},
+    // Agrega más datos si es necesario
+];
 
-const upload = multer({ storage: storage });
-
-var config = {
-    user: 'postgres',
-    host: 'localhost', 
-    database: 'product_admin',   
-    password: 'password',
-    port: '5432'    
-  };
-
-const oProductsRepository = new productsRepository(config);
-const oOrdersRepository = new ordersRepository(config);
-const oAccountsRepository = new accountsRepository(config);
-const oCategoriesRepository = new categoriesRepository(config);
-
-
-app.get('/',function(req,res,next){//Creamos las rutas o secciones que va tener nuestra página. 
-    oOrdersRepository.getOrders()
-    .then(data => {
-        res.render("product-admin/index", {orders : data});
-    })
-    .catch(error => {
-        console.error("Error al obtener ordenes:", error);
-        // Manejar errores
-    });     
+app.get('/',function(req,res,next){//Creamos las rutas o secciones que va tener nuestra página.    
+    res.render("product-admin/index", {orders : orders});
 });
 
 app.get('/index.html',function(req,res,next){
-    oOrdersRepository.getOrders()
-    .then(data => {
-        res.render("product-admin/index", {orders : data});
-    })
-    .catch(error => {
-        console.error("Error al obtener ordenes:", error);
-        // Manejar errores
-    });  
+    res.render("product-admin/index", {orders : orders});
 });
 
 app.get('/accounts.html',function(req,res,next){
-    oAccountsRepository.getAccounts()
-    .then(data => {
-        res.render("product-admin/accounts", {accounts : data});
-    })
-    .catch(error => {
-        console.error("Error al obtener accounts:", error);
-        // Manejar errores
-    }); 
+    res.render("product-admin/accounts");
 });
 
-app.get('/add-product.html',function(req,res,next){    
-    oCategoriesRepository.getCategories()
-    .then(data => {
-        res.render("product-admin/add-product", {categories : data});
-    })
-    .catch(error => {
-        console.error("Error al obtener categories:", error);
-        // Manejar errores
-    }); 
+app.get('/add-product.html',function(req,res,next){
+    res.render("product-admin/add-product");
 });
 
 app.get('/edit-product.html',function(req,res,next){
@@ -105,64 +49,44 @@ app.get('/login.html',function(req,res,next){
 });
 
 app.get('/products.html',function(req,res,next){
-    oProductsRepository.getProductos()
-    .then(data => {
-        res.render("product-admin/products", {products: data});
-    })
-    .catch(error => {
-        console.error("Error al obtener productos:", error);
-        // Manejar errores
-    });    
+    var products = [
+        {ProductName : "PriscilaPro", UnitSold: 1, InStock: 9, ExpireDate: "28 March 2024"},
+        {ProductName : "StevenPro", UnitSold: 2, InStock: 5, ExpireDate: "04 March 2024"},
+        // Agrega más datos si es necesario
+    ];
+    res.render("product-admin/products", {products: products});
 });
 
-app.post('/products.html',upload.single('fileInput'),function(req,res,next){
-    oProductsRepository.addProducto(req.body,req.file.originalname)
-    .then(dataInsert => {
-        //Solicita todos los productos
-        oProductsRepository.getProductos()
-            .then(data => {
-                res.render("product-admin/products", {products: data});
-            })
-            .catch(error => {
-                console.error("Error al obtener productos:", error);
-                // Manejar errores
-            });  
-            })
-    .catch(error => {
-        console.error("Error al agregar producto:", error);
-        // Manejar errores
-    });   
-    if (!req.file) {    
-    console.log("Error obteniendo el archivo de imagen");
-    }      
-});
-
-
-//RUTAS SITIO E-COMMERSE ALDEA MODA
 app.get('/product.html', function(req, res, next) {
-   
-    oProductsRepository.getProductos()
-    .then(data => {
-        res.render("e-commerce/product", { products: data });
-    })
-    .catch(error => {
-        console.error("Error al obtener productos e-commerce:", error);
-        // Manejar errores
-    });    
-});
-
-app.get('/home.html', function(req, res, next) {
-   
-    oProductsRepository.getProductos()
-    .then(data => {
-        res.render("e-commerce/home", { products: data });
-    })
-    .catch(error => {
-        console.error("Error al obtener productos para home e-commerce:", error);
-        // Manejar errores
-    });    
+    var products = [
+        { ProductName: "PriscilaPro", Price: "$20.99", UnitsSold: 1, InStock: 9, ExpireDate: "28 March 2024" },
+        { ProductName: "StevenPro", Price: "$25.49", UnitsSold: 2, InStock: 5, ExpireDate: "04 March 2024" },
+        // Agrega más datos si es necesario
+    ];
+    res.render("e-commerce/product", { products: products });
 });
 
 app.listen(app.get('port'),()=>{ //listener en el puesto especificado
     console.log('servidor activo');//Una vez inicializado mostrará esto por consola.
+});
+
+const pool = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'aldeaModa',
+    password: '1234',
+    port: 5432 // Puerto de PostgreSQL
+});
+
+app.get('/', async (req, res) => {
+    try {
+      const client = await pool.connect();
+      const result = await client.query('SELECT * FROM Usuarios');
+      const usuarios = result.rows;
+      res.render('product-admin\index.ejs', { usuarios }); // Asegúrate de que aquí estás pasando los usuarios a la plantilla EJS
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.send('Error al obtener usuarios de la base de datos');
+    }
 });
