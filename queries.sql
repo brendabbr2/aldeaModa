@@ -1,4 +1,4 @@
-ALTER ROLE postgres WITH PASSWORD 'password';
+ALTER USER postgres WITH PASSWORD '1324';
 
 Create table Category(
 id SERIAL PRIMARY KEY,
