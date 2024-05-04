@@ -95,7 +95,7 @@
                         <td><%= product.in_stock %></td>
                         <td><%= product.price %></td>
                         <td>
-                            <a href="#" class="tm-product-delete-link">
+                            <a href="/products.html?borrarProducto=<%= product.id %>" name="borrar-producto" class="tm-product-delete-link">
                                 <i class="far fa-trash-alt tm-product-delete-icon"></i>
                             </a>
                         </td>

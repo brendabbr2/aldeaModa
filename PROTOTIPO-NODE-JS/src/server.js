@@ -105,6 +105,9 @@ app.get('/login.html',function(req,res,next){
 });
 
 app.get('/products.html',function(req,res,next){
+    
+    console.log("parametro borrarProducto por req: "+ req.query.borrarProducto);
+
     oProductsRepository.getProductos()
     .then(data => {
         res.render("product-admin/products", {products: data});
@@ -114,6 +117,7 @@ app.get('/products.html',function(req,res,next){
         // Manejar errores
     });    
 });
+
 
 app.post('/products.html',upload.single('fileInput'),function(req,res,next){
     oProductsRepository.addProducto(req.body,req.file.originalname)
