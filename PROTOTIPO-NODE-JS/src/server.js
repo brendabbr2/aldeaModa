@@ -41,7 +41,7 @@ const upload = multer({ storage: storage });
 var config = {
     user: 'postgres',
     host: 'localhost', 
-    database: 'product_admin', 
+    database: 'product_admin',   
     password: '1234',
     port: '5432'    
   };
@@ -105,15 +105,49 @@ app.get('/login.html',function(req,res,next){
 });
 
 app.get('/products.html',function(req,res,next){
-    oProductsRepository.getProductos()
-    .then(data => {
+    // Verificar si el parámetro "borrarProducto" existe en la consulta
+    if (req.query.borrarProducto) {
+        oProductsRepository.borrarProducto(req.query.borrarProducto)
+        .then(() => {
+            // Después de borrar el producto, obtener los productos actualizados
+            return oProductsRepository.getProductos();
+        })
+        .then(data => {
+            res.render ("product-admin/products", {products: data});
+        })
+        .catch(error => {
+            console.error("Error al borrar u obtener productos: ", error);
+        });
+    } else if (req.query.productIds) {// Verifica si fué seleccionado uno o varios productos a ser eliminados
+
+        var arrayIdProductos = Array.isArray(req.query.productIds) ? req.query.productIds : [req.query.productIds];
+
+        oProductsRepository.borrarListaProducto(arrayIdProductos)
+        .then(() => {
+            // Después de borrar los producto, obtener los productos actualizados
+            return oProductsRepository.getProductos();
+        })
+        .then(data => {
+            res.render ("product-admin/products", {products: data});
+        })
+        .catch(error => {
+            console.error("Error al borrar productos seleccionados u obtener productos: ", error);
+        });
+    } 
+    else { // si no se proporciona el parámetro para borrar el producto, simplemente obtiene los productos
+        oProductsRepository.getProductos()
+        .then(data => {
         res.render("product-admin/products", {products: data});
     })
-    .catch(error => {
+        .catch(error => {
         console.error("Error al obtener productos:", error);
         // Manejar errores
-    });    
+    }); 
+
+    }
+ 
 });
+
 
 app.post('/products.html',upload.single('fileInput'),function(req,res,next){
     oProductsRepository.addProducto(req.body,req.file.originalname)
