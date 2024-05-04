@@ -34,7 +34,7 @@ class ProductsRepository{
 
         addProducto(product, imageName){
             return new Promise((resolve, reject) => {
-                // Conección a base de datos postgresql
+                // Conexión a base de datos postgresql
                 const client = new Client(this.oConfig);
                 client.connect(error => {
                     if (error) {
@@ -44,7 +44,7 @@ class ProductsRepository{
                         console.log("Conexión exitosa");
                         client.query(`Insert into Product(name,in_stock,price,category_name,image_name) values('${product.name}',${product.in_stock},${product.price},'${product.category}','${imageName}')`, (error, res) => {
                             if (error) {
-                                console.log("Error en Insert Producto DB --" + error);
+                                console.log("Error en Insert Producto DB -- " + error);
                                 reject(error);
                             } else {
                                 client.end();
@@ -55,7 +55,37 @@ class ProductsRepository{
                     }
                 });
             });
-        }       
+        }
+        
+        /* Función para borrar un producto por su ID*/
+
+        borrarProducto(productId) {
+            return new Promise((resolve, reject) => { 
+                // Conexión a base de datos postgresql
+                const client = new Client(this.oConfig);
+                client.connect(error => {
+                    if(error) {
+                        console.log("Error al establecer la conexión a la BD -- " + error);
+                        reject(error);
+                    } else {
+                        console.log("Conexión exitosa");
+                        client.query(`DELETE FROM product WHERE id = ${productId}`, (error, res) => {
+                            if(error) {
+                                console.log("Error al borrar el producto -- " + error);
+                                reject(error);
+                            } else{
+                                client.end();
+                                console.log("Producto borrado con éxito");
+                                resolve();
+                            }
+                        });
+
+                    }
+
+
+                });
+            });
+        }
     
 }
 module.exports = ProductsRepository;

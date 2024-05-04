@@ -105,17 +105,31 @@ app.get('/login.html',function(req,res,next){
 });
 
 app.get('/products.html',function(req,res,next){
-    
-    console.log("parametro borrarProducto por req: "+ req.query.borrarProducto);
-
-    oProductsRepository.getProductos()
-    .then(data => {
+    // Verificar si el parámetro "borrarProducto" existe en la consulta
+    if (req.query.borrarProducto) {
+        oProductsRepository.borrarProducto(req.query.borrarProducto)
+        .then(() => {
+            // Después de borrar el producto, obtener los productos actualizados
+            return oProductsRepository.getProductos();
+        })
+        .then(data => {
+            res.render ("product-admin/products", {products: data});
+        })
+        .catch(error => {
+            console.error("Error al borrar u obtener productos: ", error);
+        });
+    } else { // si no se proporciona el parámetro para borrar el producto, simplemente obtiene los productos
+        oProductsRepository.getProductos()
+        .then(data => {
         res.render("product-admin/products", {products: data});
     })
-    .catch(error => {
+        .catch(error => {
         console.error("Error al obtener productos:", error);
         // Manejar errores
-    });    
+    }); 
+
+    }
+ 
 });
 
 
