@@ -86,10 +86,6 @@ INSERT INTO account (nombre, email, password, phone) VALUES
 
 select * from account
 
-Create table Category(
-id SERIAL PRIMARY KEY,
-name VARCHAR(30)
-);
 
 
 
