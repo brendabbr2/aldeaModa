@@ -86,6 +86,37 @@ class ProductsRepository{
                 });
             });
         }
+
+        /* Función para borrar lista de productos por su ID*/
+
+        borrarListaProducto(listaIdProducto) {
+            return new Promise((resolve, reject) => { 
+                // Conexión a base de datos postgresql
+                const client = new Client(this.oConfig);
+                client.connect(error => {
+                    if(error) {
+                        console.log("Error al establecer la conexión a la BD -- " + error);
+                        reject(error);
+                    } else {
+                        console.log("Conexión exitosa");
+                        const listaIdProductoString = listaIdProducto.join(',');
+                        client.query(`DELETE FROM product WHERE id = ANY(array[${listaIdProductoString}])`, (error, res) => {
+                            if(error) {
+                                console.log("Error al borrar lista de productos -- " + error);
+                                reject(error);
+                            } else{
+                                client.end();
+                                console.log("Lista de productos borrados con éxito");
+                                resolve();
+                            }
+                        });
+
+                    }
+
+
+                });
+            });
+        }
     
 }
 module.exports = ProductsRepository;

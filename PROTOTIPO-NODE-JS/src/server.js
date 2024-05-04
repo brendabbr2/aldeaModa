@@ -118,7 +118,23 @@ app.get('/products.html',function(req,res,next){
         .catch(error => {
             console.error("Error al borrar u obtener productos: ", error);
         });
-    } else { // si no se proporciona el parámetro para borrar el producto, simplemente obtiene los productos
+    } else if (req.query.productIds) {// Verifica si fué seleccionado uno o varios productos a ser eliminados
+
+        var arrayIdProductos = Array.isArray(req.query.productIds) ? req.query.productIds : [req.query.productIds];
+
+        oProductsRepository.borrarListaProducto(arrayIdProductos)
+        .then(() => {
+            // Después de borrar los producto, obtener los productos actualizados
+            return oProductsRepository.getProductos();
+        })
+        .then(data => {
+            res.render ("product-admin/products", {products: data});
+        })
+        .catch(error => {
+            console.error("Error al borrar productos seleccionados u obtener productos: ", error);
+        });
+    } 
+    else { // si no se proporciona el parámetro para borrar el producto, simplemente obtiene los productos
         oProductsRepository.getProductos()
         .then(data => {
         res.render("product-admin/products", {products: data});

@@ -76,6 +76,7 @@
       <div class="row tm-content-row">
         <div class="col-sm-12 col-md-12 col-lg-8  col-xl-12 tm-block-col">
           <div class="tm-bg-primary-dark tm-block tm-block-products">
+            <form action="/products.html" method="get">
             <div class="tm-product-table-container">
               <table class="table table-hover tm-table-small tm-product-table">
                 <thead>
@@ -86,22 +87,22 @@
                     <th scope="col">PRICE</th>
                     <th scope="col">&nbsp;</th>
                   </tr>
-                </thead>
+                </thead>                
                 <tbody>
                   <% products.forEach(function(product) { %>
                     <tr>
-                        <th scope="row"><input type="checkbox" /></th>
+                        <th scope="row"><input type="checkbox" value="<%= product.id %>" name="productIds"/></th>
                         <td class="tm-product-name"><%= product.name %></td>
                         <td><%= product.in_stock %></td>
                         <td><%= product.price %></td>
                         <td>
-                            <a href="/products.html?borrarProducto=<%= product.id %>" name="borrar-producto" class="tm-product-delete-link">
+                            <a href="/products.html?borrarProducto=<%= product.id %>"  class="tm-product-delete-link">
                                 <i class="far fa-trash-alt tm-product-delete-icon"></i>
                             </a>
                         </td>
                     </tr>
                 <% }); %>
-                </tbody>
+                </tbody>              
               </table>
             </div>
             <!-- table container -->
@@ -111,6 +112,7 @@
             <button class="btn btn-primary btn-block text-uppercase">
               Delete selected products
             </button>
+          </form>
           </div>
         </div>
       </div>
