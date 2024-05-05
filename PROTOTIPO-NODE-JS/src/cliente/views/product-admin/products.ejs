@@ -92,7 +92,7 @@
                   <% products.forEach(function(product) { %>
                     <tr>
                         <th scope="row"><input type="checkbox" value="<%= product.id %>" name="productIds"/></th>
-                        <td class="tm-product-name"><%= product.name %></td>
+                        <td class="tm-product-name"><a href="/edit-product.html?editProductId=<%= product.id %>&name=<%=product.name%>&price=<%=product.price%>&inStock=<%=product.in_stock%>&categoryName=<%=product.category_name%>&imageName=<%=product.image_name%>" style="color: inherit"><%= product.name %></a></td>
                         <td><%= product.in_stock %></td>
                         <td><%= product.price %></td>
                         <td>
@@ -129,12 +129,5 @@
     <!-- https://jquery.com/download/ -->
     <script src="static/product-admin/js/bootstrap.min.js"></script>
     <!-- https://getbootstrap.com/ -->
-    <script>
-      $(function() {
-        $(".tm-product-name").on("click", function() {
-          window.location.href = "edit-product.html";
-        });
-      });
-    </script>
   </body>
 </html>

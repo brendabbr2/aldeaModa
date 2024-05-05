@@ -30,11 +30,11 @@ class ProductsRepository{
             });
         }
 
-        /* Agrega un nuevo producto a la base de datos*/
+        /* Agrega o actualiza un nuevo producto a la base de datos*/
 
-        addProducto(product, imageName){
+        addOrUpdateProducto(product, imageName){
             return new Promise((resolve, reject) => {
-                // Conexión a base de datos postgresql
+                // Conexión a base de datos postgresql                
                 const client = new Client(this.oConfig);
                 client.connect(error => {
                     if (error) {
@@ -42,16 +42,29 @@ class ProductsRepository{
                         reject(error);
                     } else {
                         console.log("Conexión exitosa");
-                        client.query(`Insert into Product(name,in_stock,price,category_name,image_name) values('${product.name}',${product.in_stock},${product.price},'${product.category}','${imageName}')`, (error, res) => {
-                            if (error) {
-                                console.log("Error en Insert Producto DB -- " + error);
-                                reject(error);
-                            } else {
-                                client.end();
-                                console.log("Producto agregado con éxito");
-                                resolve();
-                            }
-                        });
+                        if(product.productId == 0){ // si productId es 0 significa que es un nuevo producto
+                            client.query(`Insert into Product(name,in_stock,price,category_name,image_name) values('${product.name}',${product.in_stock},${product.price},'${product.category}','${imageName}')`, (error, res) => {
+                                if (error) {
+                                    console.log("Error en Insert Producto DB -- " + error);
+                                    reject(error);
+                                } else {
+                                    client.end();
+                                    console.log("Producto agregado con éxito");
+                                    resolve();
+                                }
+                            });
+                        }else{// si productId es diferente de 0 significa que es un producto a actualizar
+                            client.query(`Update Product Set name = '${product.name}', in_stock = ${product.in_stock}, price = ${product.price}, category_name = '${product.category}', image_name = '${imageName}'  Where id = ${product.productId}`, (error, res) => {
+                                if (error) {
+                                    console.log("Error en Update de Producto DB -- " + error);
+                                    reject(error);
+                                } else {
+                                    client.end();
+                                    console.log("Producto actualizado con éxito");
+                                    resolve();
+                                }
+                            });
+                        }
                     }
                 });
             });

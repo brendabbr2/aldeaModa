@@ -96,8 +96,15 @@ app.get('/add-product.html',function(req,res,next){
     }); 
 });
 
-app.get('/edit-product.html',function(req,res,next){
-    res.render("product-admin/edit-product");
+app.get('/edit-product.html',function(req,res,next){   
+    oCategoriesRepository.getCategories()
+    .then(data => {
+        res.render("product-admin/edit-product",{categories : data, product: req.query});
+    })
+    .catch(error => {
+        console.error("Error al obtener categories:", error);
+        // Manejar errores
+    }); 
 });
 
 app.get('/login.html',function(req,res,next){
@@ -150,7 +157,8 @@ app.get('/products.html',function(req,res,next){
 
 
 app.post('/products.html',upload.single('fileInput'),function(req,res,next){
-    oProductsRepository.addProducto(req.body,req.file.originalname)
+    const imageName = req.file? req.file.originalname : req.body.imageName;
+    oProductsRepository.addOrUpdateProducto(req.body,imageName)
     .then(dataInsert => {
         //Solicita todos los productos
         oProductsRepository.getProductos()
@@ -163,10 +171,10 @@ app.post('/products.html',upload.single('fileInput'),function(req,res,next){
             });  
             })
     .catch(error => {
-        console.error("Error al agregar producto:", error);
+        console.error("Error al agregar o actualizar producto:", error);
         // Manejar errores
     });   
-    if (!req.file) {    
+    if (!req.file && !req.body.imageName) {    
     console.log("Error obteniendo el archivo de imagen");
     }      
 });
