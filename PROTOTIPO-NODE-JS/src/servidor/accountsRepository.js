@@ -32,7 +32,7 @@ class AccountsRepository{
             });
         }
 
-        // En accountsRepository.js
+        // Buscar el correo 
         getAccountByEmail(email) {
             return new Promise((resolve, reject) => {
                 // Conección a base de datos postgresql
@@ -43,7 +43,6 @@ class AccountsRepository{
                         reject(error);
                     } else {
                         console.log("Conexión exitosa");
-
                         const query = 'SELECT * FROM account WHERE email = $1';
                         client.query(query, [email], (error, result) => {
                             if (error) {
