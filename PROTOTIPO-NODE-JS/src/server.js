@@ -217,9 +217,11 @@ app.post('/login.html', function(req, res, next) {
     oAccountsRepository.getAccountByEmail(email)
         .then(account => {
             if (account && account.password === password) {
-                // Las credenciales son válidas, redirige al usuario a la página principal 
-                res.redirect('/home.html');
+                console.error("Validación de credenciales, exitosa");
+                // Las credenciales son válidas, redirige al usuario al sitio de administración de productos 
+                res.redirect('/index.html');
             } else {
+                console.error("Password incorrecto");
                 // Las credenciales son inválidas, renderiza la página de inicio de sesión con un mensaje de error
                 res.render('product-admin/login', { error: 'Credenciales inválidas' });
             }
