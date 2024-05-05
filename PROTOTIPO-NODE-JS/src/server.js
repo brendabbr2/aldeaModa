@@ -107,6 +107,12 @@ app.get('/edit-product.html',function(req,res,next){
     }); 
 });
 
+app.get('/shoping-cart.html', function(req, res, next) {
+    res.render('e-commerce/shoping-cart', {product : req.query}); 
+});
+
+
+
 app.get('/login.html',function(req,res,next){
     res.render("product-admin/login");
 });
