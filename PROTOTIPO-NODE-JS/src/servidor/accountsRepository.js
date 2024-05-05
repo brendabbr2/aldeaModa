@@ -31,8 +31,21 @@ class AccountsRepository{
                 });
             });
         }
-        
-    
+
+        // En accountsRepository.js
+        getAccountByEmail(email) {
+            return new Promise((resolve, reject) => {
+                const query = 'SELECT * FROM account WHERE email = $1';
+                client.query(query, [email], (error, result) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(result.rows[0]); // Devuelve la primera fila (el primer usuario encontrado)
+                    }
+                });
+            });
+        }
+
 }
 module.exports = AccountsRepository;
 

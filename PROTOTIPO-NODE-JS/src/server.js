@@ -205,6 +205,27 @@ app.get('/home.html', function(req, res, next) {
     });    
 });
 
+app.post('/login', function(req, res, next) {
+    const { email, password } = req.body;
+    // Realiza una consulta en la base de datos para verificar las credenciales del usuario
+    oAccountsRepository.getAccountByEmail(email)
+        .then(account => {
+            if (account && account.password === password) {
+                // Las credenciales son válidas, redirige al usuario a la página principal 
+                res.redirect('/home.html');
+            } else {
+                // Las credenciales son inválidas, renderiza la página de inicio de sesión con un mensaje de error
+                res.render('product-admin/login', { error: 'Credenciales inválidas' });
+            }
+        })
+        .catch(error => {
+            console.error("Error al verificar las credenciales:", error);
+            // Manejar errores
+            res.render('product-admin/login', { error: 'Error al verificar las credenciales' });
+        });
+});
+
+
 app.listen(app.get('port'),()=>{ //listener en el puesto especificado
     console.log('servidor activo');//Una vez inicializado mostrará esto por consola.
 });
