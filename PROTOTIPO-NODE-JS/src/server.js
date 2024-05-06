@@ -213,6 +213,8 @@ app.get('/home.html', function(req, res, next) {
 
 app.post('/login.html', function(req, res, next) {
     const { email, password } = req.body;
+    console.log("Correo recibido:", email);
+    console.log("Contraseña recibida:", password);
     // Realiza una consulta en la base de datos para verificar las credenciales del usuario
     oAccountsRepository.getAccountByEmail(email)
         .then(account => {
