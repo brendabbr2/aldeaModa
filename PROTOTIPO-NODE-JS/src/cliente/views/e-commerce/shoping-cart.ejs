@@ -120,185 +120,173 @@
 		</div>
 	</div>
 		
-	<!-- Shoping Cart -->
-	<form  action="/product.html" method="get" class="bg0 p-b-85">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-10 col-xl-5 m-lr-auto m-b-50">
-					<div class="m-l-25 m-r--38 m-lr-0-xl">
-						<div class="wrap-table-shopping-cart">
-							<table class="table-shopping-cart">
-								<tr class="table_head">
-									<th class="column-1">Product</th>
-									<th class="column-2"></th>
-									<th class="column-3">Price</th>
-								</tr>
+<!-- Shoping Cart -->
 
-								<tr class="table_row">
-									<td class="column-1">
-										<div class="how-itemcart1">
-											<img src="static/e-commerse/images/item-cart-04.jpg" alt="IMG">
-										</div>
-									</td>
-									<td class="column-2">Fresh Strawberries</td>
-									<td class="column-3">$ 36.00</td>
-								</tr>
+<form action="/product.html" method="get" class="bg0 p-b-85">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-xl-5 m-lr-auto m-b-50">
+                <div class="m-l-25 m-r--38 m-lr-0-xl">
+                    <div class="wrap-table-shopping-cart">
+                        <table class="table-shopping-cart">
+                            <tr class="table_head">
+                                <th class="column-1">Product</th>
+                                <th class="column-2"></th>
+                                <th class="column-3">Price</th>
+                            </tr>
 
-							</table>
-						</div>
-
-					</div>
-				</div>
-
-				<div class="col-sm-10 col-lg-7 col-xl-7 m-lr-auto m-b-50">
-                    
-                        <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
-                            <h4 class="mtext-109 cl2 p-b-30">
-                                New Order
-                            </h4>
-                            
-                            <div class="flex-w flex-t bor12 p-b-13">
-                                <div class="size-208">
-                                    <span class="stext-110 cl2">
-                                        Subtotal:
-                                    </span>
-                                </div>
-
-                                <div class="size-209">
-                                    <span class="mtext-110 cl2">
-                                        $36
-                                        <input type="text" id="subtotal" name="subtotal" readonly value="36" style="display: none;">
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="flex-w flex-t  p-b-13 p-t-15">
-                                <div class="size-208 ">
-                                    <span class="stext-110 cl2">
-                                        Taxes:
-                                    </span>
-                                </div>
-
-                                <div class="size-209">
-                                    <span class="mtext-110 cl2">
-                                        $1.66
-                                        <input type="text" id="taxes" name="taxes" readonly value="1.66" style="display: none;">
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="flex-w flex-t ">
-                                <div class="size-208 w-full-ssm">
-                                    <span class="stext-110 cl2">
-                                        Shipping:
-                                    </span>
-                                </div>
-
-                                <div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
-                                    <div class="size-209">
-                                        <span class="mtext-110 cl2">
-                                            $15.00
-                                            <input type="text" id="shipping" name="shipping" readonly value="$15.00" style="display: none;">
-                                        </span>
+                            <tr class="table_row">
+                                <td class="column-1">
+                                    <div class="how-itemcart1">
+                                        <img src="static/e-commerse/images/<%= product.imageName %>" alt="<%= product.name %>" id="productImage">
                                     </div>
-                                    
-                                    <div class="p-t-15">
-                                        <span class="stext-112 cl8">
-                                            Location
-                                        </span>
+                                </td>
+                                <td class="column-2" id="productName"><%= product.name %></td>
+                                <td class="column-3" id="productPrice">$ <%= product.price %></td>
+                            </tr>
 
-                                        <div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
-                                            <select class="js-select2" name="provice" id="provice" required>
-                                                <option>Select a province...</option>
-                                                <option value="San José">San José</option>
-                                                <option value="Cartago">Cartago</option>
-                                                <option value="Heredia">Heredia</option>
-                                                <option value="Guanacaste">Guanacaste</option>
-                                                <option value="Puntarenas">Puntarenas</option>
-                                                <option value="Limón">Limón</option>
-                                            </select>
-                                            <div class="dropDownSelect2"></div>
-                                        </div>
+                        </table>
+                    </div>
 
-                                        <div class="bor8 bg0 m-b-12">
-                                            <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="city" placeholder="City / Canton" required>
-                                        </div>
+                </div>
+            </div>
 
-                                        <div class="bor8 bg0 m-b-22">
-                                            <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="postcode" placeholder="Postcode / Zip" required>
-                                        </div>
-                                                                            
-                                    </div>
-                                </div>
-                            </div>
+            <div class="col-sm-10 col-lg-7 col-xl-7 m-lr-auto m-b-50">
 
-                            <div class="flex-w flex-t  p-b-13">
-                                <div class="size-208"></div>
-                                <div class="size-209 ">
-                                    <span class="stext-110 cl2">
-                                        Client Information
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="cardNumber">Card Number:</label>
-                                    <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="cardHolderName">Client Name:</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name & Last name" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="expiryDate">Exp. Date:</label>
-                                    <input type="text" class="form-control" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="cvv">CVV:</label>
-                                    <input type="text" class="form-control" id="cvv" name="cvv" placeholder="123" required>
-                                </div>
-                            </div>
+                <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+                    <h4 class="mtext-109 cl2 p-b-30">
+                        New Order
+                    </h4>
 
-                            <div class="flex-w flex-t bor12 p-b-13 ">
-                                <div class="size-208 ">
-                                    <span class="stext-110 cl2">
-                                        Estimated Delivery:
-                                    </span>
-                                </div>
-
-                                <div class="size-209">
-                                    <span class="mtext-110 cl2">
-                                        <input type="text" id="dateDelivery" name="dateDelivery" readonly value="<%= new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString() %>">
-                                    </span>
-                                </div>
-                            </div>                       
-                            
-                            <div class="flex-w flex-t p-t-27 p-b-33">
-                                <div class="size-208">
-                                    <span class="mtext-101 cl2">
-                                        Total:
-                                    </span>
-                                </div>
-
-                                <div class="size-209 p-t-1">
-                                    <span class="mtext-110 cl2">
-                                        $52.66
-                                        <input type="text" id="total" name="total" readonly value="52.66" style="display: none;">
-                                    </span>
-                                </div>
-                            </div>                       
-
-                            <button type="submit" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-                                Proceed to Checkout
-                            </button>
+                    <div class="flex-w flex-t bor12 p-b-13">
+                        <div class="size-208">
+                            <span class="stext-110 cl2">
+                                Subtotal:
+                            </span>
                         </div>
-				</div>
-			</div>
-		</div>
-	</form>
-		
+
+                        <div class="size-209">
+                            <span class="mtext-110 cl2" id="subtotal">$ <%= product.price %></span>
+                        </div>
+                    </div>
+
+                    <div class="flex-w flex-t  p-b-13 p-t-15">
+                        <div class="size-208 ">
+                            <span class="stext-110 cl2">
+                                Taxes:
+                            </span>
+                        </div>
+
+                        <div class="size-209">
+                            <span class="mtext-110 cl2" id="taxes">$ 0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="flex-w flex-t ">
+                        <div class="size-208 w-full-ssm">
+                            <span class="stext-110 cl2">
+                                Shipping:
+                            </span>
+                        </div>
+
+                        <div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
+                            <div class="size-209">
+                                <span class="mtext-110 cl2" id="shipping">$ 0.00</span>
+                            </div>
+
+                            <div class="p-t-15">
+                                <span class="stext-112 cl8">
+                                    Location
+                                </span>
+
+                                <div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
+                                    <select class="js-select2" name="province" id="province" required>
+                                        <option>Select a province...</option>
+                                        <option value="San José">San José</option>
+                                        <option value="Cartago">Cartago</option>
+                                        <option value="Heredia">Heredia</option>
+                                        <option value="Guanacaste">Guanacaste</option>
+                                        <option value="Puntarenas">Puntarenas</option>
+                                        <option value="Limón">Limón</option>
+                                    </select>
+                                    <div class="dropDownSelect2"></div>
+                                </div>
+
+                                <div class="bor8 bg0 m-b-12">
+                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="city" placeholder="City / Canton" required>
+                                </div>
+
+                                <div class="bor8 bg0 m-b-22">
+                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="postcode" placeholder="Postcode / Zip" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-w flex-t  p-b-13">
+                        <div class="size-208"></div>
+                        <div class="size-209">
+                            <span class="stext-110 cl2">
+                                Client Information
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="cardNumber">Card Number:</label>
+                            <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="cardHolderName">Client Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Name & Last name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="expiryDate">Exp. Date:</label>
+                            <input type="text" class="form-control" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="cvv">CVV:</label>
+                            <input type="text" class="form-control" id="cvv" name="cvv" placeholder="123" required>
+                        </div>
+                    </div>
+
+                    <div class="flex-w flex-t bor12 p-b-13 ">
+                        <div class="size-208 ">
+                            <span class="stext-110 cl2">
+                                Estimated Delivery:
+                            </span>
+                        </div>
+
+                        <div class="size-209">
+                            <span class="mtext-110 cl2" id="dateDelivery"></span>
+                        </div>
+                    </div>
+
+                    <div class="flex-w flex-t p-t-27 p-b-33">
+                        <div class="size-208">
+                            <span class="mtext-101 cl2">
+                                Total:
+                            </span>
+                        </div>
+
+                        <div class="size-209">
+                            <span class="mtext-110 cl2" id="total">$ <%= product.price %></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+                        Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 	
-		
 
 	<!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
@@ -412,6 +400,7 @@
 				</div>
 			</div>			
 		</div>
+        
 	</footer>
 
 
@@ -421,6 +410,7 @@
 			<i class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
+
 
 <!--===============================================================================================-->	
 	<script src="static/e-commerse/vendor/jquery/jquery-3.2.1.min.js"></script>
