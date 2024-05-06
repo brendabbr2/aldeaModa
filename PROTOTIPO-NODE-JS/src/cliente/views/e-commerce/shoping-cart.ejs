@@ -262,7 +262,7 @@
                         </div>
 
                         <div class="size-209">
-                            <span class="mtext-110 cl2" id="dateDelivery"></span>
+                            <span class="mtext-110 cl2" id="dateDelivery"><%= new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString() %></span>
                         </div>
                     </div>
 
@@ -461,12 +461,14 @@
 
 	            // Obtiene los datos del formulario
 	            var formData = $(this).serialize();
-
 	            // Envía una solicitud POST al nuevo endpoint para guardar la orden
 	            $.post('/guardar-orden', formData, function(response) {
+					alert('¡La orden se guardó correctamente!');
+					window.location.href = '/product.html';
 	                // Maneja la respuesta del servidor
 	                console.log(response); // Puedes mostrar un mensaje de éxito o redireccionar a otra página
 	            }).fail(function(error) {
+					alert('¡Falló al completar la orden, intente de nuevo por favor!');
 	                console.error('Error al guardar la orden:', error); // Maneja los errores
 	            });
 	        });

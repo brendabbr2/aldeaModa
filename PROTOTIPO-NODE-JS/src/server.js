@@ -239,16 +239,15 @@ app.post('/login.html', function(req, res, next) {
 
 app.post('/guardar-orden', async (req, res) => {
     try {
-        const pool = new Pool(config);
-        console.log(req.body);
-        const { status, client, location, order_date, est_delivery_date } = req.body;
+        const pool = new Pool(config);        
+        const { name, province, city, postcode} = req.body;
 
         // Inserta la nueva orden en la base de datos
         const result = await pool.query(
             'INSERT INTO OrderClient (status, client, location, order_date, est_delivery_date) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-            [status, client, location, order_date, est_delivery_date]
+            ['Completed', name, province+" / "+city+" / "+ postcode, new Date(), new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString()]
         );
-
+        console.log ('Insertado correctamente');
         res.status(201).send('Orden guardada correctamente.');
     } catch (error) {
         console.error('Error al guardar la orden:', error);
