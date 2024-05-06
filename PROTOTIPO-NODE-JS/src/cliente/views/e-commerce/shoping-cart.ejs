@@ -122,7 +122,7 @@
 		
 <!-- Shoping Cart -->
 
-<form action="/product.html" method="get" class="bg0 p-b-85">
+<form id="checkoutForm" action="/product.html" method="get" class="bg0 p-b-85">
     <div class="container">
         <div class="row">
             <div class="col-lg-10 col-xl-5 m-lr-auto m-b-50">
@@ -450,6 +450,28 @@
 	</script>
 <!--===============================================================================================-->
 	<script src="static/e-commerse/js/main.js"></script>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	
+	<script>
+	    $(document).ready(function() {
+	        // Maneja el evento de envío del formulario
+	        $('#checkoutForm').submit(function(event) {
+	            event.preventDefault(); // Evita que el formulario se envíe automáticamente
+
+	            // Obtiene los datos del formulario
+	            var formData = $(this).serialize();
+
+	            // Envía una solicitud POST al nuevo endpoint para guardar la orden
+	            $.post('/guardar-orden', formData, function(response) {
+	                // Maneja la respuesta del servidor
+	                console.log(response); // Puedes mostrar un mensaje de éxito o redireccionar a otra página
+	            }).fail(function(error) {
+	                console.error('Error al guardar la orden:', error); // Maneja los errores
+	            });
+	        });
+	    });
+	</script>
 
 </body>
 </html>
