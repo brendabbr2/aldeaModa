@@ -183,13 +183,14 @@
                                 <tr>
                                     <th scope="row"><b>#<%= order.id %></b></th>
                                     <td>
-                                        <div class="tm-status-circle <%= order.status.toLowerCase() %>">
+                                        <div class="tm-status-circle <% if (order.status) { %> <%= order.status.toLowerCase() %> <% } %>">
+
                                         </div><%= order.status %>
                                     </td>
                                     <td><b><%= order.client %></b></td>
                                     <td><b><%= order.location %></b></td>
-                                    <td><%= order.order_date.toLocaleDateString() %></td>
-                                    <td><%= order.est_delivery_date.toLocaleDateString() %></td>
+                                    <td><% if (order.order_date) { %> <%= order.order_date.toLocaleDateString() %> <% } %></td>
+                                    <td><% if (order.est_delivery_date) { %> <%= order.est_delivery_date.toLocaleDateString() %> <% } %></td>
                                 </tr>
                                 <% }); %>
                             </tbody>
