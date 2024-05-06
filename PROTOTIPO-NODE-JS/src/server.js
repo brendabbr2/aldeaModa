@@ -217,7 +217,7 @@ app.post('/login.html', function(req, res, next) {
     oAccountsRepository.getAccountByEmail(email)
         .then(account => {
             if (account && account.password === password) {
-                console.error("Validación de credenciales, exitosa");
+                console.error("Validación de credenciales exitosa");
                 // Las credenciales son válidas, redirige al usuario al sitio de administración de productos 
                 res.redirect('/index.html');
             } else {
