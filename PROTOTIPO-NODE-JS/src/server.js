@@ -13,6 +13,7 @@ const ordersRepository = require("./servidor/ordersRepository");
 const accountsRepository = require("./servidor/accountsRepository");
 const categoriesRepository = require("./servidor/categoriesRepository");
 
+const { Pool } = require('pg');
 
 
 var app = express();
@@ -66,6 +67,7 @@ app.get('/',function(req,res,next){//Creamos las rutas o secciones que va tener 
 app.get('/index.html',function(req,res,next){
     oOrdersRepository.getOrders()
     .then(data => {
+        console.log(data);
         res.render("product-admin/index", {orders : data});
     })
     .catch(error => {
@@ -237,6 +239,8 @@ app.post('/login.html', function(req, res, next) {
 
 app.post('/guardar-orden', async (req, res) => {
     try {
+        const pool = new Pool(config);
+        console.log(req.body);
         const { status, client, location, order_date, est_delivery_date } = req.body;
 
         // Crear un objeto con los datos de la orden
