@@ -241,7 +241,19 @@ app.post('/guardar-orden', async (req, res) => {
     try {
         const pool = new Pool(config);        
         const { name, province, city, postcode} = req.body;
+        /*
+        // Crear un objeto con los datos de la orden
+        const order = {
+            status,
+            client,
+            location,
+            order_date,
+            est_delivery_date
+        };
 
+        // Guardar la orden utilizando el método saveOrder del repositorio de órdenes
+        const savedOrder = await oOrdersRepository.saveOrder(order);
+        */
         // Inserta la nueva orden en la base de datos
         const result = await pool.query(
             'INSERT INTO OrderClient (status, client, location, order_date, est_delivery_date) VALUES ($1, $2, $3, $4, $5) RETURNING *',
